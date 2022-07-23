@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { loginUser } from '../api/service';
 
 const LoginCard = () => {
     const navigate = useNavigate();
@@ -19,12 +20,27 @@ const LoginCard = () => {
     const [password, setpassword] = useState('');
     const [errorMessage, seterrorMessage] = useState('');
 
-    const showHome = () => {
+    const showHome = async (e) => {
+        e.preventDefault();
+
         const myObj = {
             email, password
         }
 
-        console.log(myObj);
+        if (email === '') {
+            seterrorMessage('Enter email address');
+        } else if (password === '') {
+            seterrorMessage('Enter your password');
+        } else {
+            const res = await loginUser(myObj);
+            if (res.status === false && res.message === 'email not registered'){
+                seterrorMessage('No account found!');
+            }else if (res.status === false && res.message === 'password not matched'){
+                seterrorMessage('Wrong password');
+            }else if (res.status === true && res.message === 'password matched'){
+                navigate('/home');
+            }
+        }
 
         // navigate("/home");
     }
