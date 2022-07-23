@@ -1,5 +1,9 @@
 .sidebar-container{
-    width: 300px;
+    // width: 300px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 16;
     border-right: 2px solid rgb(242, 242, 242);
     height: 100vh;
     
