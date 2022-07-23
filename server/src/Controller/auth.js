@@ -14,11 +14,12 @@ const registerUser = async (request, response) => {
             response.status(200).json({ status: false, message: 'already registered' });
         } else {
             const name = request.body.name;
+            const image = request.body.image;
             const email = request.body.email;
             let password = request.body.password;
             password = await bcrypt.hash(password, 10)
 
-            const data = await new authdb({ name, email, password });
+            const data = await new authdb({ name, image, email, password });
             data.save();
 
             response.status(200).json({ status: true, message: 'email registered' });

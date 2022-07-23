@@ -38,6 +38,7 @@ const LoginCard = () => {
             }else if (res.status === false && res.message === 'password not matched'){
                 seterrorMessage('Wrong password');
             }else if (res.status === true && res.message === 'password matched'){
+                localStorage.setItem('taskez', email);
                 navigate('/home');
             }
         }

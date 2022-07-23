@@ -25,7 +25,7 @@ const SignupCard = () => {
         e.preventDefault();
 
         let myObj = {
-            name, email, password
+            name, email, password, image: `./Images/photo${Math.floor(Math.random() * (7 - 1) + 1)}.png`
         }
 
         if (name === '') {

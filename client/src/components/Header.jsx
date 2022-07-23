@@ -1,11 +1,25 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import { getUserData } from '../api/service';
 
 const Header = () => {
+    const [data, setdata] = useState({});
+
+    useEffect(() => {
+        const email = localStorage.getItem('taskez');
+        const getUser = async () => {
+            const res = await getUserData(email);
+            localStorage.setItem('taskez-name', res.name);
+            localStorage.setItem('taskez-image', res.image);
+            setdata(res);
+        };
+        getUser();
+    }, []);
+
     return (
         <header>
             <div className="search-container">
                 <i className="far fa-search"></i>
-                <input type="text" name="search_query" id="search_query" />
+                <input style={{border: 'none', outline: 'none', marginLeft: '10px'}} type="text" name="search_query" id="search_query" placeholder='search' />
             </div>
             <div className="user-photos">
                 <div className="user">
@@ -30,16 +44,11 @@ const Header = () => {
                     <div className="user-img-container">
                         <div className="remain-user">8</div>
                     </div>
-                    {/* <img src="./Images/photo2.png" alt="" />
-                    <img src="./Images/photo3.png" alt="" />
-                    <img src="./Images/photo4.png" alt="" />
-                    <img src="./Images/photo5.png" alt="" />
-                    <img src="./Images/photo6.png" alt="" /> */}
                 </div>
             </div>
             <div className="profile-info">
-                <p>Sachin Rawat</p>
-                <img src="./Images/photo4.png" alt="" />
+                <p>{data.name}</p>
+                <img src={data.image} alt="" />
             </div>
         </header>
     )
