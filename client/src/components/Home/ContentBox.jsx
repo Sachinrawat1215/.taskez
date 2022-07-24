@@ -91,9 +91,9 @@ const ContentBox = () => {
       getCards();
    }, [todoBorder, progressBorder, completedBorder, showDetailedCard, todoDisplay, inprogressDisplay, completedDisplay]);
 
-   let todocard = cards.filter(card => card.status === 'todo').length;
-   let inprogresscard = cards.filter(card => card.status === 'progress').length;
-   let completedcard = cards.filter(card => card.status === 'completed').length;
+   let todocard = cards && cards.filter(card => card.status === 'todo').length;
+   let inprogresscard = cards && cards.filter(card => card.status === 'progress').length;
+   let completedcard = cards && cards.filter(card => card.status === 'completed').length;
 
    // Drag and Drop Code
 
