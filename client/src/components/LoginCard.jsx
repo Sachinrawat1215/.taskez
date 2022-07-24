@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from '../api/service';
 
@@ -42,9 +42,19 @@ const LoginCard = () => {
                 navigate('/home');
             }
         }
-
-        // navigate("/home");
     }
+
+    // Handle remember me
+    const [rememberValue, setrememberValue] = useState(true);
+
+    const handleRemember = () => {
+        setrememberValue(!rememberValue);
+        localStorage.setItem('taskremember', !rememberValue);
+    }
+
+    useEffect(() => {
+        localStorage.setItem('taskremember', rememberValue);
+    }, []);
 
     return (
         <div className='card-container'>
@@ -68,7 +78,7 @@ const LoginCard = () => {
                     <input type="submit" value="Log In" />
                 </form>
 
-                <input type="checkbox" name="remember_me" id="remember_me" />
+                <input type="checkbox" name="remember_me" id="remember_me" checked={rememberValue} onChange={handleRemember} />
                 <label htmlFor='remember_me'>Remember Me</label>
             </div>
         </div>

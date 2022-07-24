@@ -18,7 +18,7 @@ const validate = async (request, response, next) => {
         const token = tokenObj.substr(10, tokenObj.length);
 
         const verifyToken = jwt.verify(token, 'secret123');
-        // console.log(verifyToken._id);
+        // console.log(verifyToken);
         const rootUser = await authSchema.findOne({ _id: verifyToken._id, 'tokens.token': token });
 
         if (!rootUser) {

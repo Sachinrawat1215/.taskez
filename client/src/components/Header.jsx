@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
-import { getUserData } from '../api/service';
+import { useNavigate } from 'react-router-dom';
+import { getUserData, logoutUser } from '../api/service';
 
 const Header = () => {
     const [data, setdata] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const email = localStorage.getItem('taskez');
         const getUser = async () => {
-            const res = await getUserData(email);
-            localStorage.setItem('taskez-name', res.name);
-            localStorage.setItem('taskez-image', res.image);
-            setdata(res);
+            const res = await getUserData();
+
+            if (!res) {
+                navigate('/login');
+            }else{
+                localStorage.setItem('taskez-name', res.name);
+                localStorage.setItem('taskez-image', res.image);
+                setdata(res);
+            }
         };
         getUser();
     }, []);
@@ -19,7 +25,7 @@ const Header = () => {
         <header>
             <div className="search-container">
                 <i className="far fa-search"></i>
-                <input style={{border: 'none', outline: 'none', marginLeft: '10px'}} type="text" name="search_query" id="search_query" placeholder='search' />
+                <input style={{ border: 'none', outline: 'none', marginLeft: '10px' }} type="text" name="search_query" id="search_query" placeholder='search' />
             </div>
             <div className="user-photos">
                 <div className="user">

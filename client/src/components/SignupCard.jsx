@@ -72,8 +72,8 @@ const SignupCard = () => {
                     <input type="submit" value="Sign Up" />
                 </form>
 
-                <input type="checkbox" name="remember_me" id="remember_me" />
-                <label htmlFor='remember_me'>Remember Me</label>
+                {/* <input type="checkbox" name="remember_me" id="remember_me" />
+                <label htmlFor='remember_me'>Remember Me</label> */}
             </div>
         </div>
     )

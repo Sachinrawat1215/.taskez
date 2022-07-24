@@ -3,7 +3,7 @@ const cardSchema = require('../Schema/cardSchema');
 
 const getUserData = async (request, response) => {
     try {
-        const user = await authSchema.findOne({ email: request.params.email });
+        const user = await authSchema.findOne({ email: request.rootUser.email });
         if (!user) {
             response.sendStatus(500);
             throw new Error('user not found');
@@ -46,4 +46,24 @@ const updateCard = async (request, response) => {
     }
 };
 
-module.exports = { getUserData, saveCardData, getAllCards, updateCard };
+const getCardData = async (request, response) => {
+    try {
+        const id = request.params.id;
+        const data = await cardSchema.findById(id);
+        response.status(200).send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+}
+
+const deleteCard = async (request, response) => {
+    try {
+        const id = request.params.id;
+        const data = await cardSchema.findByIdAndDelete(id);
+        response.status(200).send({status: true, message: 'Card data deleted successfully'});
+    } catch (error) {
+        response.status(500).send(error);
+    }
+};
+
+module.exports = { getUserData, saveCardData, getAllCards, updateCard, getCardData, deleteCard };

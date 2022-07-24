@@ -1,6 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { logoutUser } from '../../api/service';
 
 const Sidebar = () => {
+
+    const handleLogout = async () => {
+        const res = await logoutUser();
+        console.log(res);
+    }
+
     return (
         <div className='sidebar-container'>
             <a className='logo' href="/">
@@ -16,7 +23,7 @@ const Sidebar = () => {
                 </ul>
                 <ul>
                     <li><a href="/"><i className="fal fa-cog"></i> Setting</a></li>
-                    <li><a href="/"><i className="far fa-sign-out"></i> Log Out</a></li>
+                    <li onClick={handleLogout}><a href="/"><i className="far fa-sign-out"></i> Log Out</a></li>
                 </ul>
             </div>
         </div>

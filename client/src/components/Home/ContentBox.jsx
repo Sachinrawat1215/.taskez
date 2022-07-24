@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import ShowCardDetail from './ShowCardDetail';
-import { saveCardData, getAllCards, updateCard } from '../../api/service';
+import { saveCardData, getAllCards, updateCard, getCardData, deleteCard } from '../../api/service';
 
 const ContentBox = () => {
    const [todoDisplay, settodoDisplay] = useState('none');
@@ -42,6 +41,7 @@ const ContentBox = () => {
          console.log(res);
          settodoTitle('');
          settodoDescription('');
+         settodoDisplay('none');
       }
    }
 
@@ -57,6 +57,7 @@ const ContentBox = () => {
          console.log(res);
          setprogressTitle('');
          setprogressDescription('');
+         setinprogressDisplay('none');
       }
    }
 
@@ -72,30 +73,30 @@ const ContentBox = () => {
          console.log(res);
          setcompletedTitle('');
          setcompletedDescription('');
+         setcompletedDisplay('none');
       }
    }
 
    const [cards, setcards] = useState([]);
+   const [todoBorder, settodoBorder] = useState('white');
+   const [progressBorder, setprogressBorder] = useState('white');
+   const [completedBorder, setcompletedBorder] = useState('white');
+   const [showDetailedCard, setshowDetailedCard] = useState(false);
 
    useEffect(() => {
-      // let allCard = document.getElementsByClassName('content-card');
-      // console.log(allCard);
       const getCards = async () => {
          const res = await getAllCards();
-         // console.log(res);
          setcards(res);
       }
       getCards();
-   }, []);
+   }, [todoBorder, progressBorder, completedBorder, showDetailedCard, todoDisplay, inprogressDisplay, completedDisplay]);
 
    let todocard = cards.filter(card => card.status === 'todo').length;
    let inprogresscard = cards.filter(card => card.status === 'progress').length;
    let completedcard = cards.filter(card => card.status === 'completed').length;
 
    // Drag and Drop Code
-   const [todoBorder, settodoBorder] = useState('white');
-   const [progressBorder, setprogressBorder] = useState('white');
-   const [completedBorder, setcompletedBorder] = useState('white');
+
 
    const todoDragStart = (e, id) => {
       e.dataTransfer.setData('cardId', id);
@@ -126,18 +127,52 @@ const ContentBox = () => {
 
    const todoDragDropped = async (e) => {
       settodoBorder('white');
-      await updateCard({id: e.dataTransfer.getData('cardId'), status: 'todo' });
+      await updateCard({ id: e.dataTransfer.getData('cardId'), status: 'todo' });
    }
 
    const progressDragDropped = async (e) => {
       setprogressBorder('white');
-      await updateCard({id: e.dataTransfer.getData('cardId'), status: 'progress' });
+      await updateCard({ id: e.dataTransfer.getData('cardId'), status: 'progress' });
    }
 
    const completedDragDropped = async (e) => {
       setcompletedBorder('white');
-      await updateCard({id: e.dataTransfer.getData('cardId'), status: 'completed' });
+      await updateCard({ id: e.dataTransfer.getData('cardId'), status: 'completed' });
    }
+
+   // Handling detailed card
+   const [rightVal, setrightVal] = useState('');
+   const [cardData, setcardData] = useState([]);
+
+   const showBigCard = async (value, id) => {
+      const res = await getCardData(id);
+      setcardData(res);
+      setshowDetailedCard(value);
+   }
+
+   const hideDetailedCard = () => {
+      setrightVal('-532px');
+      setshowDetailedCard(false);
+   }
+
+   const handleDelete = async (id) => {
+      const confirm = window.confirm('Are you sure you want to delete this card?');
+      console.log(confirm);
+      if (confirm) {
+         await deleteCard(id);
+         hideDetailedCard();
+      }else{
+         return;
+      }
+   }
+
+   useEffect(() => {
+      if (showDetailedCard) {
+         setrightVal('0px');
+      } else {
+         setrightVal('-532px');
+      }
+   }, [showDetailedCard]);
 
    return (
       <div className='content-box'>
@@ -158,7 +193,7 @@ const ContentBox = () => {
             {cards.map((card, index) => {
                if (card.status === 'todo') {
                   todocard++;
-                  return (<div draggable="true" onDragStart={(e) => todoDragStart(e, card._id)} key={index} className="content-card">
+                  return (<div draggable="true" onDragStart={(e) => todoDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
                      <h3>{card.title}</h3>
                      <p>{card.description}</p>
                      <div className="card-writer">
@@ -189,7 +224,7 @@ const ContentBox = () => {
             </div>
             {cards.map((card, index) => {
                if (card.status === 'progress') {
-                  return (<div draggable="true" onDragStart={(e) => progressDragStart(e, card._id)} key={index} className="content-card">
+                  return (<div draggable="true" onDragStart={(e) => progressDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
                      <h3>{card.title}</h3>
                      <p>{card.description}</p>
                      <div className="card-writer">
@@ -220,7 +255,7 @@ const ContentBox = () => {
             </div>
             {cards.map((card, index) => {
                if (card.status === 'completed') {
-                  return (<div draggable="true" onDragStart={(e) => completedDragStart(e, card._id)} key={index} className="content-card">
+                  return (<div draggable="true" onDragStart={(e) => completedDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
                      <h3>{card.title}</h3>
                      <p>{card.description}</p>
                      <div className="card-writer">
@@ -235,7 +270,28 @@ const ContentBox = () => {
             })}
          </div>
 
-         {/* <ShowCardDetail /> */}
+         <div style={{ right: rightVal }} className='card-content-container'>
+            <div className='icons'>
+               <i onClick={() => handleDelete(cardData._id)} style={{display: cardData.email === localStorage.getItem('taskez') ? 'inline' : 'none'}} className="far fa-trash-alt"></i>
+               <i onClick={hideDetailedCard} className="far fa-times"></i>
+            </div>
+            <h1>{cardData.title}</h1>
+            <div className="card-content">
+               <div className="detail">
+                  <p>Created By</p>
+                  <div className="content">
+                     <img src={cardData.image} alt="" />
+                     <p>{cardData.name}</p>
+                  </div>
+               </div>
+               <div className="detail">
+                  <p>Description</p>
+                  <div className="content">
+                     <p>{cardData.description}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
    )
 }
