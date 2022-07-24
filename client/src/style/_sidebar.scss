@@ -7,7 +7,6 @@
     border-right: 2px solid rgb(242, 242, 242);
     height: 100vh;
     position: fixed;
-    // display: block;
     
     .logo{
         margin: 30px 50px;
@@ -38,5 +37,23 @@
                 // border-radius: 5px;
             }
         }
+    }
+}
+
+@media(max-width: 1540px){
+    .sidebar-container{
+        width: 250px;
+    }
+}
+
+@media(max-width: 1270px){
+    .sidebar-container{
+        width: 200px;
+    }
+}
+
+@media(max-width: 1170px){
+    .sidebar-container{
+        display: none;
     }
 }

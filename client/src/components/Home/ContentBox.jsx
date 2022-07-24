@@ -146,6 +146,7 @@ const ContentBox = () => {
 
    const showBigCard = async (value, id) => {
       const res = await getCardData(id);
+      window.scrollTo(0, 0);
       setcardData(res);
       setshowDetailedCard(value);
    }

@@ -66,4 +66,13 @@ const deleteCard = async (request, response) => {
     }
 };
 
-module.exports = { getUserData, saveCardData, getAllCards, updateCard, getCardData, deleteCard };
+const getAllUsers = async (request, response) => {  
+    try {
+        const data = await authSchema.find({});
+        response.status(200).send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+}
+
+module.exports = { getUserData, saveCardData, getAllCards, updateCard, getCardData, deleteCard, getAllUsers };

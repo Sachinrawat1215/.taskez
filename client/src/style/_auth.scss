@@ -9,6 +9,7 @@
         padding: 60px;
         border-radius: 65px;
         width: 480px;
+        // border: 2px solid red;
 
         nav {
             h3 {
@@ -81,6 +82,19 @@
             input[type="checkbox"]{
                 width: 30px;
             }
+        }
+    }
+}
+
+@media (max-width: 1220px) {
+    .auth-container{
+        grid-template-columns: repeat(1, 1fr);
+        img{
+            display: none;
+        }
+
+        .card-container{
+            margin: 0 auto;
         }
     }
 }

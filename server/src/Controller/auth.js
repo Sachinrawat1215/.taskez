@@ -39,13 +39,12 @@ const loginUser = async (request, response) => {
         } else {
             if (checkPassword) {
                 // Genuine Case
-                let token = jwt.sign({ _id: checkEmail[0]._id, email: checkEmail[0].email }, 'secret123');
+                let token = jwt.sign({ _id: checkEmail[0]._id, email: checkEmail[0].email }, process.env.JWT_TOKEN);
                 checkEmail[0].tokens = checkEmail[0].tokens.concat({ token: token });
                 await checkEmail[0].save();
 
                 response.cookie("authtoken", token, {
-                    // expires: new Date(Date.now() + 2592000000),
-                    expires: new Date(Date.now() + 1000000),
+                    expires: new Date(Date.now() + 2592000000),
                     httpOnly: true,
                 });
 
@@ -63,9 +62,7 @@ const loginUser = async (request, response) => {
 const logoutUser = async (request, response) => {
     try {
         const checkEmail = await authdb.find({ email: request.rootUser.email });
-        console.log(checkEmail);
         const token = request.token;
-        console.log(token);
         const index = checkEmail[0].tokens.findIndex(x => x.token === token);
         checkEmail[0].tokens.splice(index, 1);
         await checkEmail[0].save();

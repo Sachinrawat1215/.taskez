@@ -24,7 +24,7 @@ const LoginCard = () => {
         e.preventDefault();
 
         const myObj = {
-            email, password
+            email: email.toLocaleLowerCase(), password
         }
 
         if (email === '') {
@@ -54,6 +54,11 @@ const LoginCard = () => {
 
     useEffect(() => {
         localStorage.setItem('taskremember', rememberValue);
+        const gmail = localStorage.getItem('taskez');
+        console.log(gmail);
+        if (gmail) {
+            navigate('/home');
+        }
     }, []);
 
     return (

@@ -13,5 +13,6 @@ router.post('/api/updatecard', validate, controller2.updateCard);
 router.get('/api/logout', validate, controller.logoutUser);
 router.get('/api/card/:id', validate, controller2.getCardData);
 router.delete('/api/deletecard/:id', validate, controller2.deleteCard);
+router.get('/api/getallusers', validate, controller2.getAllUsers);
 
 module.exports = router;

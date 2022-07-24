@@ -4,8 +4,8 @@ import { logoutUser } from '../../api/service';
 const Sidebar = () => {
 
     const handleLogout = async () => {
-        const res = await logoutUser();
-        console.log(res);
+        localStorage.clear();
+        await logoutUser();
     }
 
     return (
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 </ul>
                 <ul>
                     <li><a href="/"><i className="fal fa-cog"></i> Setting</a></li>
-                    <li onClick={handleLogout}><a href="/"><i className="far fa-sign-out"></i> Log Out</a></li>
+                    <li style={{ cursor: 'pointer' }} onClick={handleLogout}><a href="/"><i className="far fa-sign-out"></i> Log Out</a></li>
                 </ul>
             </div>
         </div>

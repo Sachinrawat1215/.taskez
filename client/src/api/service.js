@@ -1,5 +1,5 @@
 import axios from 'axios';
-const URL = 'http://localhost:8000';
+const URL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.withCredentials = true;
 
 const registerUser = async (data) => {
@@ -84,4 +84,13 @@ const deleteCard = async (id) => {
     }
 }
 
-export { registerUser, loginUser, getUserData, saveCardData, getAllCards, updateCard, logoutUser, getCardData, deleteCard };
+const getAllUsers = async () => {
+    try {
+        const res = await axios.get(`${URL}/api/getallusers`);
+        return res.data;
+    } catch (error) {
+        console.log(`Failed to save card data reason ${error}`);
+    }
+}
+
+export { registerUser, loginUser, getUserData, saveCardData, getAllCards, updateCard, logoutUser, getCardData, deleteCard, getAllUsers };
