@@ -223,7 +223,7 @@ const ContentBox = () => {
                <textarea name="description" id="description" placeholder='Description' value={progressDescription} onChange={(e) => setprogressDescription(e.target.value)}></textarea>
                <button onClick={addProgress}>Add</button>
             </div>
-            {cards.map((card, index) => {
+            {cards && cards.map((card, index) => {
                if (card.status === 'progress') {
                   return (<div draggable="true" onDragStart={(e) => progressDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
                      <h3>{card.title}</h3>
@@ -254,7 +254,7 @@ const ContentBox = () => {
                <textarea name="description" id="description" placeholder='Description' value={completedDescription} onChange={(e) => setcompletedDescription(e.target.value)}></textarea>
                <button onClick={addCompleted}>Add</button>
             </div>
-            {cards.map((card, index) => {
+            {cards && cards.map((card, index) => {
                if (card.status === 'completed') {
                   return (<div draggable="true" onDragStart={(e) => completedDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
                      <h3>{card.title}</h3>
