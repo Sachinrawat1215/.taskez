@@ -13,7 +13,7 @@ const registerUser = async (data) => {
 
 const loginUser = async (data) => {
     try {
-        const res = await axios.post(`${URL}/api/login`, data);
+        const res = await axios.post(`${URL}/api/login`, data, { withCredentials: true });
         return res.data;
     } catch (error) {
         console.log(`Failed to register user reason ${error}`);
