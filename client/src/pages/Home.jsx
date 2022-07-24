@@ -101,7 +101,7 @@ const Home = () => {
                 <i onClick={hideMemberDisplay} style={{ cursor: 'pointer', padding: "8px" }} className="fal fa-times"></i>
                 <h1>Project Members</h1>
                 <div className='member_list'>
-                    {users.map((user, index) => {
+                    {users && users.map((user, index) => {
                         return (
                             <div key={index} className="single">
                                 <div className="image">
