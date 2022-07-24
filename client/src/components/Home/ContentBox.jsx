@@ -191,7 +191,7 @@ const ContentBox = () => {
                <textarea name="description" id="description" placeholder='Description' value={todoDescription} onChange={(e) => settodoDescription(e.target.value)}></textarea>
                <button onClick={addTodo}>Add</button>
             </div>
-            {cards.map((card, index) => {
+            {cards && cards.map((card, index) => {
                if (card.status === 'todo') {
                   todocard++;
                   return (<div draggable="true" onDragStart={(e) => todoDragStart(e, card._id)} key={index} className="content-card" onClick={() => showBigCard(true, card._id)}>
