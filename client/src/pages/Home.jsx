@@ -71,7 +71,7 @@ const Home = () => {
                             <div className="user-photos">
                                 <div onClick={showAllMember} style={{ cursor: 'pointer' }} className="user">
                                     {
-                                        users.map((user, index) => {
+                                        users && users.map((user, index) => {
                                             return (
                                                 <div key={index} className="user-img-container">
                                                     <img src={user.image} alt="" />
