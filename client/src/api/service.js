@@ -1,5 +1,5 @@
 import axios from 'axios';
-const URL = process.env.REACT_APP_BACKEND_URL;
+const URL = 'https://taskez-backend.herokuapp.com' || process.env.REACT_APP_BACKEND_URL;
 axios.defaults.withCredentials = true;
 
 const registerUser = async (data) => {
