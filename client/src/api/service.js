@@ -13,13 +13,7 @@ const registerUser = async (data) => {
 
 const loginUser = async (data) => {
     try {
-        const res = await axios.post(`${URL}/api/login`, data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            AccessControlAllowOrigin: '*'
-        });
+        const res = await axios.post(`${URL}/api/login`, data);
         return res.data;
     } catch (error) {
         console.log(`Failed to register user reason ${error}`);
